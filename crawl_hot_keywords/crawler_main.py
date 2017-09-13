@@ -1,0 +1,40 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import time
+from crawler_html import *
+from logger import logger
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+def main():
+  try:
+    html=get_html("http://s.weibo.com/top/summary?cate=total&key=all")
+  except Exception as e:
+    logger.error("get HTML document error: %s"%e)
+
+  output_filename="idl_recom_hot_search_keywords_log.csv"
+  try:
+    process(html,output_filename)
+  except Exception as e:
+    logger.error("process HTML document error: %s"%e)
+
+  # partition=sys.argv[1] #分区p{0}
+  partition=time.strftime('%Y-%m-%d')
+  print partition
+  drop_partition_command='''hive -e \
+  "alter table leesdata.idl_recom_hot_search_keywords_log drop partition(ds='%s')"'''%partition
+  load_data_command='''hive -e \
+  "load data local inpath '/data1/shell/job_control/task_file/recom_daily/python_code/idl_recom_hot_search_keywords_log.csv' \
+  into table leesdata.idl_recom_hot_search_keywords_log partition(ds='%s')"'''%partition
+
+  drop_partition_result=os.system(drop_partition_command) #删除分区
+  if drop_partition_result==1:
+    logger.error("execute drop_partition_command error!!!")
+    
+  load_data_result=os.system(load_data_command) #加载分区数据
+  if load_data_result==1:
+    logger.error("execute load_data_command error!!!")
+
+if __name__ == '__main__':
+  main()
