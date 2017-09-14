@@ -12,3 +12,6 @@ step4:将热词得分进行归一化
 将文件logger.py和logger.conf和源代码文件放在同一目录
 导入格式：from logger import logger
 新建logs空文件夹
+
+注：
+table标签中不包含'\n'
