@@ -9,11 +9,10 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-
 def get_html(url):
   page = urllib.urlopen(url)
   html = page.read()
-  html=html.decode('gb2312').encode('utf-8') #通过查看网页编码了解:charset=gb2312
+  html=html.decode('gb2312','ignore').encode('utf-8') #通过查看网页编码了解:charset=gb2312
   return html
 
 def find_table(html):
