@@ -1,0 +1,1 @@
+/data1/cloudera/parcels/CDH/bin/sqoop-export --table result_article_info_agg --connect "jdbc:mysql://172.31.6.180:3306/addition_profit_db?useUnicode=yes&characterEncoding=UTF-8" --password mCdlUmm3thna5ttup --username dc --export-dir /user/hive/warehouse/leesdata.db/idl_recom_article_feature_info_agg/ds={p0} --columns id,keywords,classes,tag_psb,popularity --update-key id
