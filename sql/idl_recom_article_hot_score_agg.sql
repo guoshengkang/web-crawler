@@ -8,15 +8,15 @@ FROM
     (SELECT
     article_id,
     keyword
-    FROM idl_recom_result_article_feature_agg
-    LATERAL VIEW OUTER explode(keywords) mytable as keyword
-    WHERE ds='{p0}'
+    FROM idl_recom_article_keyword_agg
+    WHERE ds="{p0}"
     ) t1
 LEFT JOIN
     (SELECT *
     FROM idl_recom_hot_search_keywords_log
-    WHERE ds='{p0}'
+    WHERE ds="{p0}"
     ) t2
 ON t1.keyword=t2.keyword
+WHERE t2.keyword IS NOT NULL
 GROUP BY t1.article_id;
 

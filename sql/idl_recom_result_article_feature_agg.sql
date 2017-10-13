@@ -5,26 +5,19 @@ SELECT
 t1.article_id,
 t1.title,     
 t3.classes,
-t2.keywords,  
+t1.keywords,  
 t1.abstract,  
 t1.insertdt
 FROM
     (SELECT
     id AS article_id,
     title,
+    keywords,
     abstract,
     to_date(insertdt) AS insertdt
     FROM idl_recom_result_article_feature_log
     WHERE ds="{p0}" 
     ) t1
-LEFT JOIN
-    (SELECT
-    id AS article_id,
-    split(keywords,'，') AS keywords
-    FROM idl_recom_result_article_feature_log
-    WHERE ds="{p0}"
-    ) t2
-ON t1.article_id=t2.article_id
 LEFT JOIN
     (SELECT
     s2.article_id,

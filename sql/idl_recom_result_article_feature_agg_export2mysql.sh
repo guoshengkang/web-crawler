@@ -1,1 +1,5 @@
+mysql -h172.31.6.180 -P3306 -udc -pmCdlUmm3thna5ttup  -e "insert into addition_profit_db.result_article_info_agg(id,type,title,html_path,abstract) select id,type,title,html_path,abstract from addition_profit_db.result_article_info_log t1 where not exists (select id from addition_profit_db.result_article_info_agg t2 where t2.id=t1.id);"
+
 /data1/cloudera/parcels/CDH/bin/sqoop-export --table result_article_info_agg --connect "jdbc:mysql://172.31.6.180:3306/addition_profit_db?useUnicode=yes&characterEncoding=UTF-8" --password mCdlUmm3thna5ttup --username dc --export-dir /user/hive/warehouse/leesdata.db/idl_recom_article_feature_info_agg/ds={p0} --columns id,keywords,classes,tag_psb,popularity --update-key id
+
+/data1/cloudera/parcels/CDH/bin/sqoop-export --table result_article_to_article_similarity_agg --connect "jdbc:mysql://172.31.6.180:3306/addition_profit_db?useUnicode=yes&characterEncoding=UTF-8" --password mCdlUmm3thna5ttup --username dc --export-dir /user/hive/warehouse/leesdata.db/idl_recom_similarity_article_to_article_agg/ds={p0} --columns article1,article2,similarity --update-key article1,article2
